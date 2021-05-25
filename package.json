@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^5.0.1",
     "grapesjs": "^0.17.3",
     "grapesjs-preset-webpage": "^0.1.11",
     "jquery": "^3.6.0",
