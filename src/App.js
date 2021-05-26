@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from "react";
-import grapesjs from "grapesjs";
-import gjsPresetWebage from "grapesjs-preset-webpage";
-import "./styles/main.scss";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./Home";
+import Editor from "./Editor";
 
 function App() {
-  const [editor, setEditor] = useState(null);
-
-  useEffect(() => {
-    const editor = grapesjs.init({
-      container: "#editor",
-      plugins: [gjsPresetWebage],
-      pluginsOpts: {
-        gjsPresetWebage: {},
-      },
-    });
-    setEditor(editor);
-  }, []);
-
   return (
-    <div className="App">
-      <div id="editor"></div>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home}></Route>
+        <Route exact path="/editor/:pageId" component={Editor}></Route>
+      </Switch>
+    </Router>
   );
 }
 
