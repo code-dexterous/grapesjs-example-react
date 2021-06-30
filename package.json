@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "grapesjs": "^0.17.3",
     "grapesjs-preset-webpage": "^0.1.11",
@@ -38,6 +39,6 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^6.0.0"
+    "node-sass": "^5.0.0"
   }
 }
