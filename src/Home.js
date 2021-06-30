@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { API_HOST } from "./api_utils";
+import { API_HOST, create_page } from "./api_utils";
 
 const Home = () => {
   const [name, setName] = useState("");
@@ -9,13 +9,14 @@ const Home = () => {
   const [pages, setPages] = useState([]);
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    console.log("check validation");
+  const handleSubmit = async () => {
     if (!name) {
       setIsValid(false);
       return;
     }
-    console.log("Valid submit it", name);
+    const newPage = await create_page(name);
+    setName("");
+    setPages([...pages, newPage]);
   };
 
   useEffect(() => {
@@ -33,9 +34,9 @@ const Home = () => {
   }, []);
 
   return (
-    <div classNameName="container">
+    <div className="container">
       <div className="row">
-        <div classNameName="col-12 mt-5">
+        <div className="col-12 mt-5">
           <form id="create-page">
             <div className="modal-header">
               <h5 className="modal-title" id="addPageModalLabel">
@@ -44,7 +45,7 @@ const Home = () => {
             </div>
             <div className="modal-body">
               <div className="col-auto">
-                <label for="name" className="form-label">
+                <label htmlFor="name" className="form-label">
                   Name
                 </label>
                 <input
@@ -79,13 +80,13 @@ const Home = () => {
             </div>
           </form>
         </div>
-        <div class="col-12 my-2">
+        <div className="col-12 my-2">
           {error && (
             <div className="alert alert-primary" role="alert">
               {error}
             </div>
           )}
-          <table class="table table-bordered table-hover">
+          <table className="table table-bordered table-hover">
             <thead>
               <tr>
                 <td>ID</td>
@@ -95,23 +96,27 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {pages.length > 0
-                ? pages.map((page) => (
-                    <tr>
-                      <td>{page._id}</td>
-                      <td>{page.name}</td>
-                      <td>{page.slug}</td>
-                      <td>
-                        <Link
-                          to={`/editor/${page._id}`}
-                          className="btn btn-success btn-sm"
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                    </tr>
-                  ))
-                : "No Page Found"}
+              {pages.length > 0 ? (
+                pages.map((page) => (
+                  <tr key={page._id}>
+                    <td>{page._id}</td>
+                    <td>{page.name}</td>
+                    <td>{page.slug}</td>
+                    <td>
+                      <Link
+                        to={`/editor/${page._id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td>No Page Found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
