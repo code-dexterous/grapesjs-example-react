@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { API_HOST } from "./api_utils";
 
 const Home = () => {
   const [name, setName] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [pages, setPages] = useState([]);
+  const [error, setError] = useState("");
 
   const handleSubmit = () => {
     console.log("check validation");
@@ -12,6 +17,20 @@ const Home = () => {
     }
     console.log("Valid submit it", name);
   };
+
+  useEffect(() => {
+    async function getAllPages() {
+      try {
+        const response = await axios.get(`${API_HOST}/`);
+        setPages(response.data);
+      } catch (error) {
+        console.log("error :>> ", error);
+        setError(error.message);
+      }
+    }
+
+    getAllPages();
+  }, []);
 
   return (
     <div classNameName="container">
@@ -61,6 +80,11 @@ const Home = () => {
           </form>
         </div>
         <div class="col-12 my-2">
+          {error && (
+            <div className="alert alert-primary" role="alert">
+              {error}
+            </div>
+          )}
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
@@ -70,7 +94,25 @@ const Home = () => {
                 <td>Action</td>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {pages.length > 0
+                ? pages.map((page) => (
+                    <tr>
+                      <td>{page._id}</td>
+                      <td>{page.name}</td>
+                      <td>{page.slug}</td>
+                      <td>
+                        <Link
+                          to={`/editor/${page._id}`}
+                          className="btn btn-success btn-sm"
+                        >
+                          Edit
+                        </Link>
+                      </td>
+                    </tr>
+                  ))
+                : "No Page Found"}
+            </tbody>
           </table>
         </div>
       </div>
