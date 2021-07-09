@@ -14,3 +14,146 @@ html {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.sidenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: 0.5s;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  .logo {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .pages {
+    height: 100px;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+}
+
+.main-content {
+  position: relative;
+  width: 85%;
+  left: 15%;
+
+  .navbar {
+    padding: 0;
+    .container-fluid {
+      padding: 0;
+    }
+  }
+
+  #editor {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+  }
+}
+
+.nav {
+  justify-content: space-between;
+}
+.gjs-pn-panel {
+  position: relative;
+}
+
+.gjs-cv-canvas {
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.tab-content {
+  display: contents;
+}
+
+#block {
+  height: 100%;
+  #blocks {
+    height: 100%;
+
+    .gjs-blocks-c {
+      align-items: center;
+      justify-content: center;
+    }
+    .gjs-block {
+      justify-content: center;
+    }
+    .gjs-block-label {
+      display: none;
+    }
+  }
+}
+
+/* Theming */
+.gjs-one-bg {
+  background-color: #fcf6f5ff;
+}
+
+.gjs-two-color {
+  color: #990011ff;
+}
+
+.gjs-three-bg {
+  background-color: #990011ff;
+  color: #fcf6f5ff;
+}
+
+.gjs-four-color,
+.gjs-four-color-h:hover {
+  color: #990011ff;
+}
+
+.gjs-pn-btn {
+  border: 1px solid #990011ff;
+}
+
+// Customize Bootstrap CSS
+
+.btn,
+.nav-link,
+.modal-content,
+.form-control {
+  border-radius: 0 !important;
+}
+
+.btn {
+  .fa {
+    color: #990011ff;
+  }
+  &:hover {
+    .fa {
+      color: #fcf6f5ff;
+    }
+  }
+}
+
+/** Error **/
+.error {
+  .bg-body {
+    min-height: 150px;
+    max-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .title {
+      font-weight: 600;
+    }
+  }
+  .btn {
+    border-radius: 40px !important;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 150px;
+  }
+}
