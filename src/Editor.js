@@ -2,99 +2,54 @@ import React, { useEffect, useState } from "react";
 import grapesjs from "grapesjs";
 import gjsBlockBasic from "grapesjs-blocks-basic";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import $ from "jquery";
+
 import "./styles/main.scss";
 import { API_HOST } from "./api_utils";
+import {
+  deviceManager,
+  layerManager,
+  panels,
+  selectorManager,
+  styleManager,
+  traitManager,
+} from "./api_utils/grapesjs_utils";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
+  const [assets, setAssets] = useState([]);
   let { pageId } = useParams();
 
   console.log("pageId :>> ", pageId);
 
   useEffect(() => {
+    async function getAllAssets() {
+      try {
+        const response = await axios.get(`${API_HOST}assets/`);
+        setAssets(response.data);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    }
+
+    getAllAssets();
+  }, []);
+
+  useEffect(() => {
+    $(".panel__devices").html("");
+    $(".panel__basic-actions").html("");
     const editor = grapesjs.init({
       container: "#editor",
       blockManager: {
         appendTo: "#blocks",
       },
-      styleManager: {
-        appendTo: "#styles-container",
-        sectors: [
-          {
-            name: "Dimension",
-            open: false,
-            buildProps: ["width", "min-height", "padding"],
-            properties: [
-              {
-                type: "integer",
-                name: "The width",
-                property: "width",
-                units: ["px", "%"],
-                defaults: "auto",
-                min: 0,
-              },
-            ],
-          },
-        ],
-      },
-      layerManager: {
-        appendTo: "#layers-container",
-      },
-      traitManager: {
-        appendTo: "#trait-container",
-      },
-      selectorManager: {
-        appendTo: "#styles-container",
-      },
-      panels: {
-        defaults: [
-          {
-            id: "basic-actions",
-            el: ".panel__basic-actions",
-            buttons: [
-              {
-                id: "visibility",
-                active: true, // active by default
-                className: "btn-toggle-borders",
-                label: '<i class="fa fa-clone"></i>',
-                command: "sw-visibility", // Built-in command
-              },
-            ],
-          },
-          {
-            id: "panel-devices",
-            el: ".panel__devices",
-            buttons: [
-              {
-                id: "device-desktop",
-                label: '<i class="fa fa-television"></i>',
-                command: "set-device-desktop",
-                active: true,
-                togglable: false,
-              },
-              {
-                id: "device-mobile",
-                label: '<i class="fa fa-mobile"></i>',
-                command: "set-device-mobile",
-                togglable: false,
-              },
-            ],
-          },
-        ],
-      },
-      deviceManager: {
-        devices: [
-          {
-            name: "Desktop",
-            width: "",
-          },
-          {
-            name: "Mobile",
-            width: "320px",
-            widthMedia: "480px",
-          },
-        ],
-      },
+      styleManager: styleManager,
+      layerManager: layerManager,
+      traitManager: traitManager,
+      selectorManager: selectorManager,
+      panels: panels,
+      deviceManager: deviceManager,
       storageManager: {
         type: "remote",
         stepsBeforeSave: 3,
@@ -107,8 +62,14 @@ const Editor = () => {
           "Content-Type": "application/json",
         },
         id: "mycustom-",
-        urlStore: `${API_HOST}/${pageId}/content`,
-        urlLoad: `${API_HOST}/${pageId}/content`,
+        urlStore: `${API_HOST}pages/${pageId}/content`,
+        urlLoad: `${API_HOST}pages/${pageId}/content`,
+      },
+      assetManager: {
+        upload: false,
+        assets: assets,
+        storeOnChange: false,
+        storeAfterUpload: false,
       },
       plugins: [gjsBlockBasic],
       pluginsOpts: {
@@ -125,7 +86,7 @@ const Editor = () => {
     });
 
     setEditor(editor);
-  }, []);
+  }, [assets, pageId]);
 
   return (
     <>

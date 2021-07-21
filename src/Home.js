@@ -22,7 +22,7 @@ const Home = () => {
   useEffect(() => {
     async function getAllPages() {
       try {
-        const response = await axios.get(`${API_HOST}/`);
+        const response = await axios.get(`${API_HOST}pages/`);
         setPages(response.data);
       } catch (error) {
         console.log("error :>> ", error);

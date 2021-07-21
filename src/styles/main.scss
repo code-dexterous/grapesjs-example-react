@@ -157,3 +157,31 @@ html {
     min-width: 150px;
   }
 }
+
+/** Asset Mnager **/
+
+.gjs-am-meta,
+.gjs-am-close,
+.gjs-am-file-uploader,
+.gjs-am-assets-header {
+  display: none !important;
+}
+
+.gjs-am-assets-cont {
+  width: 100%;
+}
+
+.gjs-am-assets {
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gjs-am-asset-image {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: contents;
+}
+.gjs-am-preview-cont {
+  margin-top: 1rem;
+}
