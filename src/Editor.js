@@ -21,8 +21,6 @@ const Editor = () => {
   const [assets, setAssets] = useState([]);
   let { pageId } = useParams();
 
-  console.log("pageId :>> ", pageId);
-
   useEffect(() => {
     async function getAllAssets() {
       try {
@@ -38,7 +36,9 @@ const Editor = () => {
 
   useEffect(() => {
     $(".panel__devices").html("");
+    $(".panel__editor").html("");
     $(".panel__basic-actions").html("");
+    $("#styles-container").html("");
     const editor = grapesjs.init({
       container: "#editor",
       blockManager: {
@@ -83,6 +83,29 @@ const Editor = () => {
     });
     editor.Commands.add("set-device-mobile", {
       run: (editor) => editor.setDevice("Mobile"),
+    });
+    editor.Commands.add("save-db", {
+      run: (editor, sender) => {
+        sender && sender.set("active");
+        editor.store();
+      },
+    });
+
+    editor.Commands.add("cmd-clear", {
+      run: (editor) => {
+        editor.DomComponents.clear();
+        editor.CssComposer.clear();
+      },
+    });
+    editor.Commands.add("undo", {
+      run: (editor) => {
+        editor.UndoManager.undo();
+      },
+    });
+    editor.Commands.add("redo", {
+      run: (editor) => {
+        editor.UndoManager.redo();
+      },
     });
 
     setEditor(editor);
@@ -196,6 +219,7 @@ const Editor = () => {
         <nav className="navbar navbar-light">
           <div className="container-fluid">
             <div className="panel__devices"></div>
+            <div className="panel__editor"></div>
             <div className="panel__basic-actions"></div>
           </div>
         </nav>
