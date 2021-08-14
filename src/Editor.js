@@ -14,31 +14,35 @@ import {
   selectorManager,
   styleManager,
   traitManager,
-} from "./api_utils/grapesjs_utils";
+} from "./api_utils/geditor_utils";
+import tailwindComponent from "./plugins/tailwind";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
   const [assets, setAssets] = useState([]);
-  let { pageId } = useParams();
+  const { pageId } = useParams();
 
   useEffect(() => {
-    async function getAllAssets() {
+    async function getAllPages() {
       try {
         const response = await axios.get(`${API_HOST}assets/`);
         setAssets(response.data);
       } catch (error) {
         console.log("error :>> ", error);
+        setAssets(error.message);
       }
     }
-
-    getAllAssets();
+    getAllPages();
   }, []);
 
   useEffect(() => {
     $(".panel__devices").html("");
-    $(".panel__editor").html("");
     $(".panel__basic-actions").html("");
+    $(".panel__editor").html("");
+    $("#blocks").html("");
     $("#styles-container").html("");
+    $("#layers-container").html("");
+    $("#trait-container").html("");
     const editor = grapesjs.init({
       container: "#editor",
       blockManager: {
@@ -50,6 +54,7 @@ const Editor = () => {
       selectorManager: selectorManager,
       panels: panels,
       deviceManager: deviceManager,
+      assetManager: { assets: assets, upload: false },
       storageManager: {
         type: "remote",
         stepsBeforeSave: 3,
@@ -65,18 +70,15 @@ const Editor = () => {
         urlStore: `${API_HOST}pages/${pageId}/content`,
         urlLoad: `${API_HOST}pages/${pageId}/content`,
       },
-      assetManager: {
-        upload: false,
-        assets: assets,
-        storeOnChange: false,
-        storeAfterUpload: false,
+      canvas: {
+        styles: ["https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"],
       },
-      plugins: [gjsBlockBasic],
+      plugins: [tailwindComponent, gjsBlockBasic],
       pluginsOpts: {
+        tailwindComponent: {},
         gjsBlockBasic: {},
       },
     });
-
     // Commands
     editor.Commands.add("set-device-desktop", {
       run: (editor) => editor.setDevice("Desktop"),
@@ -84,42 +86,43 @@ const Editor = () => {
     editor.Commands.add("set-device-mobile", {
       run: (editor) => editor.setDevice("Mobile"),
     });
-    editor.Commands.add("save-db", {
+
+    // Save Button
+    editor.Commands.add("saveDb", {
       run: (editor, sender) => {
         sender && sender.set("active");
         editor.store();
       },
     });
 
+    //Clear Button
     editor.Commands.add("cmd-clear", {
       run: (editor) => {
         editor.DomComponents.clear();
         editor.CssComposer.clear();
       },
     });
+
+    //Undo
     editor.Commands.add("undo", {
-      run: (editor) => {
-        editor.UndoManager.undo();
-      },
+      run: (editor) => editor.UndoManager.undo(),
     });
+
+    // Redo
     editor.Commands.add("redo", {
-      run: (editor) => {
-        editor.UndoManager.redo();
-      },
+      run: (editor) => editor.UndoManager.redo(),
     });
-
     setEditor(editor);
-  }, [assets, pageId]);
-
+  }, [pageId]);
   return (
-    <>
-      {" "}
+    <div className="App">
       <div id="navbar" className="sidenav d-flex flex-column overflow-scroll">
         <nav className="navbar navbar-light">
           <div className="container-fluid">
             <span className="navbar-brand mb-0 h3 logo">Code Dexterous</span>
           </div>
         </nav>
+
         <div className="">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item" role="presentation">
@@ -225,7 +228,7 @@ const Editor = () => {
         </nav>
         <div id="editor"></div>
       </div>
-    </>
+    </div>
   );
 };
 

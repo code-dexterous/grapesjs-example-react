@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { API_HOST, create_page } from "./api_utils";
 
 const Home = () => {
@@ -29,7 +29,6 @@ const Home = () => {
         setError(error.message);
       }
     }
-
     getAllPages();
   }, []);
 
@@ -67,7 +66,11 @@ const Home = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary btn-sm">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal"
+              >
                 Clear
               </button>
               <button
@@ -82,7 +85,7 @@ const Home = () => {
         </div>
         <div className="col-12 my-2">
           {error && (
-            <div className="alert alert-primary" role="alert">
+            <div role="alert" className="alert alert-primary">
               {error}
             </div>
           )}
@@ -96,27 +99,18 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {pages.length > 0 ? (
-                pages.map((page) => (
-                  <tr key={page._id}>
-                    <td>{page._id}</td>
-                    <td>{page.name}</td>
-                    <td>{page.slug}</td>
-                    <td>
-                      <Link
-                        to={`/editor/${page._id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td>No Page Found</td>
-                </tr>
-              )}
+              {pages
+                ? pages.map((page) => (
+                    <tr key={page._id}>
+                      <td>{page._id}</td>
+                      <td>{page.name}</td>
+                      <td>{page.slug}</td>
+                      <td>
+                        <Link to={`/editor/${page._id}`}>Edit</Link>
+                      </td>
+                    </tr>
+                  ))
+                : "No Page"}
             </tbody>
           </table>
         </div>

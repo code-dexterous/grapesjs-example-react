@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@popperjs/core": "^2.9.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
-    "grapesjs": "^0.17.3",
+    "grapesjs": "^0.17.22",
     "grapesjs-blocks-basic": "^0.1.8",
     "jquery": "^3.6.0",
     "react": "^17.0.2",

@@ -1,6 +1,3 @@
-export const selectorManager = {
-  appendTo: "#styles-container",
-};
 export const styleManager = {
   appendTo: "#styles-container",
   sectors: [
@@ -405,7 +402,9 @@ export const layerManager = {
 export const traitManager = {
   appendTo: "#trait-container",
 };
-
+export const selectorManager = {
+  appendTo: "#styles-container",
+};
 export const panels = {
   defaults: [
     {
@@ -414,45 +413,36 @@ export const panels = {
       buttons: [
         {
           id: "visibility",
-          active: true,
+          active: true, // active by default
           className: "btn-toggle-borders",
           label: '<i class="fa fa-clone"></i>',
-          command: "sw-visibility",
-          attributes: { title: "Toggle Border" },
+          command: "sw-visibility", // Built-in command
         },
       ],
     },
     {
-      id: "advance-actions",
+      id: "editor-actions",
       el: ".panel__editor",
       buttons: [
         {
-          id: "save-db",
+          id: "saveDb",
           className: "fa fa-paper-plane btn-save",
-          command: "save-db",
-          context: "save-db",
-          attributes: { title: "Save" },
+          command: "saveDb",
         },
         {
           id: "cmd-clear",
           className: "fa fa-trash",
           command: "cmd-clear",
-          context: "cmd-clear",
-          attributes: { title: "Clear Canvas" },
         },
         {
           id: "undo",
           className: "fa fa-undo",
           command: "undo",
-          context: "undo",
-          attributes: { title: "Undo" },
         },
         {
           id: "redo",
           className: "fa fa-repeat",
           command: "redo",
-          context: "redo",
-          attributes: { title: "Redo" },
         },
       ],
     },
