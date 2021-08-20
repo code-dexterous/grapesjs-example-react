@@ -15,7 +15,6 @@ export default (editor, config = {}) => {
       for (let i = 0; i < opts.length; i++) {
         const option = document.createElement("option");
         let value = opts[i].value;
-        console.log("value :>> ", value);
         if (value === "") {
           value = "text-black";
         }

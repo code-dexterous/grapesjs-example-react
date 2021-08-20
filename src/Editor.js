@@ -16,6 +16,7 @@ import {
   traitManager,
 } from "./api_utils/geditor_utils";
 import tailwindComponent from "./plugins/tailwind";
+import swiperComponent from "./plugins/swiper";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
@@ -71,12 +72,17 @@ const Editor = () => {
         urlLoad: `${API_HOST}pages/${pageId}/content`,
       },
       canvas: {
-        styles: ["https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"],
+        styles: [
+          "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
+          "https://unpkg.com/swiper/swiper-bundle.min.css",
+        ],
+        scripts: ["https://unpkg.com/swiper/swiper-bundle.min.js"],
       },
-      plugins: [tailwindComponent, gjsBlockBasic],
+      plugins: [tailwindComponent, gjsBlockBasic, swiperComponent],
       pluginsOpts: {
         tailwindComponent: {},
         gjsBlockBasic: {},
+        swiperComponent: {},
       },
     });
     // Commands
