@@ -122,7 +122,7 @@ const Editor = () => {
     setTimeout(() => {
       let categories = editor.BlockManager.getCategories();
       categories.each((category) => category.set("open", false));
-    }, 500);
+    }, 1000);
 
     setEditor(editor);
   }, [pageId]);
