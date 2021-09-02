@@ -118,6 +118,12 @@ const Editor = () => {
     editor.Commands.add("redo", {
       run: (editor) => editor.UndoManager.redo(),
     });
+
+    setTimeout(() => {
+      let categories = editor.BlockManager.getCategories();
+      categories.each((category) => category.set("open", false));
+    }, 500);
+
     setEditor(editor);
   }, [pageId]);
   return (
