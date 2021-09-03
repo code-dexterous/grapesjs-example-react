@@ -4,6 +4,7 @@ import gjsBlockBasic from "grapesjs-blocks-basic";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
+import grapesjsBlockBootstrap from "grapesjs-blocks-bootstrap4";
 
 import "./styles/main.scss";
 import { API_HOST } from "./api_utils";
@@ -75,14 +76,26 @@ const Editor = () => {
         styles: [
           "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
           "https://unpkg.com/swiper/swiper-bundle.min.css",
+          "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
         ],
-        scripts: ["https://unpkg.com/swiper/swiper-bundle.min.js"],
+        scripts: [
+          "https://code.jquery.com/jquery-3.5.1.slim.min.js",
+          "https://unpkg.com/swiper/swiper-bundle.min.js",
+          "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
+          "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js",
+        ],
       },
-      plugins: [tailwindComponent, gjsBlockBasic, swiperComponent],
+      plugins: [
+        tailwindComponent,
+        gjsBlockBasic,
+        swiperComponent,
+        grapesjsBlockBootstrap,
+      ],
       pluginsOpts: {
         tailwindComponent: {},
         gjsBlockBasic: {},
         swiperComponent: {},
+        grapesjsBlockBootstrap: {},
       },
     });
     // Commands
