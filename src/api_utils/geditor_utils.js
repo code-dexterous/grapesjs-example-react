@@ -444,6 +444,11 @@ export const panels = {
           className: "fa fa-repeat",
           command: "redo",
         },
+        {
+          id: "export",
+          className: "fa fa-download",
+          command: "export",
+        },
       ],
     },
     {

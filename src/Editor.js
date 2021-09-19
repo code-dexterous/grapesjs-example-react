@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
 import grapesjsBlockBootstrap from "grapesjs-blocks-bootstrap4";
+import grapesjsPluginExport from "grapesjs-plugin-export";
 
 import "./styles/main.scss";
 import { API_HOST } from "./api_utils";
@@ -90,12 +91,14 @@ const Editor = () => {
         gjsBlockBasic,
         swiperComponent,
         grapesjsBlockBootstrap,
+        grapesjsPluginExport,
       ],
       pluginsOpts: {
         tailwindComponent: {},
         gjsBlockBasic: {},
         swiperComponent: {},
         grapesjsBlockBootstrap: {},
+        grapesjsPluginExport: {},
       },
     });
     // Commands
@@ -130,6 +133,10 @@ const Editor = () => {
     // Redo
     editor.Commands.add("redo", {
       run: (editor) => editor.UndoManager.redo(),
+    });
+
+    editor.Commands.add("export", {
+      run: (editor) => editor.runCommand("gjs-export-zip"),
     });
 
     setTimeout(() => {
