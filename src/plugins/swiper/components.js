@@ -57,7 +57,7 @@ export default (editor, opts = {}) => {
           if (typeof Swiper == "undefined") {
             const script = document.createElement("script");
             script.onload = initLib;
-            script.src = "https://unpkg.com/swiper/swiper-bundle.min.js";
+            script.src = "https://unpkg.com/swiper@7/swiper-bundle.min.js";
             document.body.appendChild(script);
           } else {
             initLib();
