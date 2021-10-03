@@ -6,6 +6,7 @@ import axios from "axios";
 import $ from "jquery";
 import grapesjsBlockBootstrap from "grapesjs-blocks-bootstrap4";
 import grapesjsPluginExport from "grapesjs-plugin-export";
+import grapesjsStyleBg from "grapesjs-style-bg";
 
 import "./styles/main.scss";
 import { API_HOST } from "./api_utils";
@@ -92,6 +93,7 @@ const Editor = () => {
         swiperComponent,
         grapesjsBlockBootstrap,
         grapesjsPluginExport,
+        grapesjsStyleBg,
       ],
       pluginsOpts: {
         tailwindComponent: {},
@@ -99,6 +101,7 @@ const Editor = () => {
         swiperComponent: {},
         grapesjsBlockBootstrap: {},
         grapesjsPluginExport: {},
+        grapesjsStyleBg: {},
       },
     });
     // Commands
