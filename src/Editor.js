@@ -47,6 +47,11 @@ const Editor = () => {
     $("#styles-container").html("");
     $("#layers-container").html("");
     $("#trait-container").html("");
+
+    // Content for Preview
+    const navbar = $("#navbar");
+    const mainContent = $("#main-content");
+    const panelTopBar = $("#main-content > .navbar-light");
     const editor = grapesjs.init({
       container: "#editor",
       blockManager: {
@@ -140,6 +145,27 @@ const Editor = () => {
 
     editor.Commands.add("export", {
       run: (editor) => editor.runCommand("gjs-export-zip"),
+    });
+
+    editor.on("run:preview", () => {
+      console.log("It will trigger when we click on preview icon");
+      // This will be used to hide border
+      editor.stopCommand("sw-visibility");
+      // This will hide the sidebar view
+      navbar.removeClass("sidebar");
+      // This will make the main-content to be full width
+      mainContent.removeClass("main-content");
+
+      // This will hide top panel where we have added the button
+      panelTopBar.addClass("d-none");
+    });
+    editor.on("stop:preview", () => {
+      // This event is reverse of the above event.
+      console.log("It will trigger when we click on cancel preview icon");
+      editor.runCommand("sw-visibility");
+      navbar.addClass("sidebar");
+      mainContent.addClass("main-content");
+      panelTopBar.removeClass("d-none");
     });
 
     setTimeout(() => {
@@ -253,7 +279,7 @@ const Editor = () => {
           </div>
         </div>
       </div>
-      <div className="main-content">
+      <div className="main-content" id="main-content">
         <nav className="navbar navbar-light">
           <div className="container-fluid">
             <div className="panel__devices"></div>

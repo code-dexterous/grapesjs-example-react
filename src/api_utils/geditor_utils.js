@@ -449,6 +449,11 @@ export const panels = {
           className: "fa fa-download",
           command: "export",
         },
+        {
+          id: "preview",
+          className: "fa fa-eye",
+          command: "preview",
+        },
       ],
     },
     {
