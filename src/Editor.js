@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from "react";
-import grapesjs from "grapesjs";
-import gjsBlockBasic from "grapesjs-blocks-basic";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import $ from "jquery";
-import grapesjsBlockBootstrap from "grapesjs-blocks-bootstrap4";
-import grapesjsPluginExport from "grapesjs-plugin-export";
-import grapesjsStyleBg from "grapesjs-style-bg";
-
-import "./styles/main.scss";
 import { API_HOST } from "./api_utils";
-import {
-  deviceManager,
-  layerManager,
-  panels,
-  selectorManager,
-  styleManager,
-  traitManager,
-} from "./api_utils/geditor_utils";
-import tailwindComponent from "./plugins/tailwind";
-import swiperComponent from "./plugins/swiper";
+import Sidebar from "./components/Sidebar";
+import TopNav from "./components/TopNav";
+import geditorConfig from "./api_utils/geditor_config";
 
 const Editor = () => {
   const [editor, setEditor] = useState(null);
@@ -40,139 +25,7 @@ const Editor = () => {
   }, []);
 
   useEffect(() => {
-    $(".panel__devices").html("");
-    $(".panel__basic-actions").html("");
-    $(".panel__editor").html("");
-    $("#blocks").html("");
-    $("#styles-container").html("");
-    $("#layers-container").html("");
-    $("#trait-container").html("");
-
-    // Content for Preview
-    const navbar = $("#navbar");
-    const mainContent = $("#main-content");
-    const panelTopBar = $("#main-content > .navbar-light");
-    const editor = grapesjs.init({
-      container: "#editor",
-      blockManager: {
-        appendTo: "#blocks",
-      },
-      styleManager: styleManager,
-      layerManager: layerManager,
-      traitManager: traitManager,
-      selectorManager: selectorManager,
-      panels: panels,
-      deviceManager: deviceManager,
-      assetManager: { assets: assets, upload: false },
-      storageManager: {
-        type: "remote",
-        stepsBeforeSave: 3,
-        contentTypeJson: true,
-        storeComponents: true,
-        storeStyles: true,
-        storeHtml: true,
-        storeCss: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        id: "mycustom-",
-        urlStore: `${API_HOST}pages/${pageId}/content`,
-        urlLoad: `${API_HOST}pages/${pageId}/content`,
-      },
-      canvas: {
-        styles: [
-          "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
-          "https://unpkg.com/swiper@7/swiper-bundle.min.css",
-          "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
-        ],
-        scripts: [
-          "https://code.jquery.com/jquery-3.5.1.slim.min.js",
-          "https://unpkg.com/swiper@7/swiper-bundle.min.js",
-          "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
-          "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js",
-        ],
-      },
-      plugins: [
-        tailwindComponent,
-        gjsBlockBasic,
-        swiperComponent,
-        grapesjsBlockBootstrap,
-        grapesjsPluginExport,
-        grapesjsStyleBg,
-      ],
-      pluginsOpts: {
-        tailwindComponent: {},
-        gjsBlockBasic: {},
-        swiperComponent: {},
-        grapesjsBlockBootstrap: {},
-        grapesjsPluginExport: {},
-        grapesjsStyleBg: {},
-      },
-    });
-    // Commands
-    editor.Commands.add("set-device-desktop", {
-      run: (editor) => editor.setDevice("Desktop"),
-    });
-    editor.Commands.add("set-device-mobile", {
-      run: (editor) => editor.setDevice("Mobile"),
-    });
-
-    // Save Button
-    editor.Commands.add("saveDb", {
-      run: (editor, sender) => {
-        sender && sender.set("active");
-        editor.store();
-      },
-    });
-
-    //Clear Button
-    editor.Commands.add("cmd-clear", {
-      run: (editor) => {
-        editor.DomComponents.clear();
-        editor.CssComposer.clear();
-      },
-    });
-
-    //Undo
-    editor.Commands.add("undo", {
-      run: (editor) => editor.UndoManager.undo(),
-    });
-
-    // Redo
-    editor.Commands.add("redo", {
-      run: (editor) => editor.UndoManager.redo(),
-    });
-
-    editor.Commands.add("export", {
-      run: (editor) => editor.runCommand("gjs-export-zip"),
-    });
-
-    editor.on("run:preview", () => {
-      console.log("It will trigger when we click on preview icon");
-      // This will be used to hide border
-      editor.stopCommand("sw-visibility");
-      // This will hide the sidebar view
-      navbar.removeClass("sidebar");
-      // This will make the main-content to be full width
-      mainContent.removeClass("main-content");
-
-      // This will hide top panel where we have added the button
-      panelTopBar.addClass("d-none");
-    });
-    editor.on("stop:preview", () => {
-      // This event is reverse of the above event.
-      console.log("It will trigger when we click on cancel preview icon");
-      editor.runCommand("sw-visibility");
-      navbar.addClass("sidebar");
-      mainContent.addClass("main-content");
-      panelTopBar.removeClass("d-none");
-    });
-
-    setTimeout(() => {
-      let categories = editor.BlockManager.getCategories();
-      categories.each((category) => category.set("open", false));
-    }, 1000);
-
+    const editor = geditorConfig(assets, pageId);
     setEditor(editor);
   }, [pageId]);
   return (
@@ -183,110 +36,10 @@ const Editor = () => {
             <span className="navbar-brand mb-0 h3 logo">Code Dexterous</span>
           </div>
         </nav>
-
-        <div className="">
-          <ul className="nav nav-tabs" id="myTab" role="tablist">
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link active"
-                id="block-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#block"
-                type="button"
-                role="tab"
-                aria-controls="block"
-                aria-selected="true"
-              >
-                <i className="fa fa-cubes"></i>
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link"
-                id="layer-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#layer"
-                type="button"
-                role="tab"
-                aria-controls="layer"
-                aria-selected="false"
-              >
-                <i className="fa fa-tasks"></i>
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link"
-                id="style-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#style"
-                type="button"
-                role="tab"
-                aria-controls="style"
-                aria-selected="false"
-              >
-                <i className="fa fa-paint-brush"></i>
-              </button>
-            </li>
-            <li className="nav-item" role="presentation">
-              <button
-                className="nav-link"
-                id="trait-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#trait"
-                type="button"
-                role="tab"
-                aria-controls="trait"
-                aria-selected="false"
-              >
-                <i className="fa fa-cog"></i>
-              </button>
-            </li>
-          </ul>
-          <div className="tab-content">
-            <div
-              className="tab-pane fade show active"
-              id="block"
-              role="tabpanel"
-              aria-labelledby="block-tab"
-            >
-              <div id="blocks"></div>
-            </div>
-            <div
-              className="tab-pane fade"
-              id="layer"
-              role="tabpanel"
-              aria-labelledby="layer-tab"
-            >
-              <div id="layers-container"></div>
-            </div>
-            <div
-              className="tab-pane fade"
-              id="style"
-              role="tabpanel"
-              aria-labelledby="style-tab"
-            >
-              <div id="styles-container"></div>
-            </div>
-            <div
-              className="tab-pane fade"
-              id="trait"
-              role="tabpanel"
-              aria-labelledby="trait-tab"
-            >
-              <div id="trait-container"></div>
-            </div>
-          </div>
-        </div>
+        <Sidebar />
       </div>
       <div className="main-content" id="main-content">
-        <nav className="navbar navbar-light">
-          <div className="container-fluid">
-            <div className="panel__devices"></div>
-            <div className="panel__editor"></div>
-            <div className="panel__basic-actions"></div>
-          </div>
-        </nav>
+        <TopNav />
         <div id="editor"></div>
       </div>
     </div>

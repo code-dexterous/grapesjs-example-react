@@ -1,3 +1,5 @@
+import { API_HOST } from ".";
+
 export const styleManager = {
   appendTo: "#styles-container",
   sectors: [
@@ -490,3 +492,73 @@ export const deviceManager = {
     },
   ],
 };
+
+export const addEditorCommand = (editor) => {
+  // Commands
+  editor.Commands.add("set-device-desktop", {
+    run: (editor) => editor.setDevice("Desktop"),
+  });
+  editor.Commands.add("set-device-mobile", {
+    run: (editor) => editor.setDevice("Mobile"),
+  });
+
+  // Save Button
+  editor.Commands.add("saveDb", {
+    run: (editor, sender) => {
+      sender && sender.set("active");
+      editor.store();
+    },
+  });
+
+  //Clear Button
+  editor.Commands.add("cmd-clear", {
+    run: (editor) => {
+      editor.DomComponents.clear();
+      editor.CssComposer.clear();
+    },
+  });
+
+  //Undo
+  editor.Commands.add("undo", {
+    run: (editor) => editor.UndoManager.undo(),
+  });
+
+  // Redo
+  editor.Commands.add("redo", {
+    run: (editor) => editor.UndoManager.redo(),
+  });
+
+  editor.Commands.add("export", {
+    run: (editor) => editor.runCommand("gjs-export-zip"),
+  });
+};
+
+export const storageSetting = (pageId) => {
+  return {
+    type: "remote",
+    stepsBeforeSave: 3,
+    contentTypeJson: true,
+    storeComponents: true,
+    storeStyles: true,
+    storeHtml: true,
+    storeCss: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    id: "mycustom-",
+    urlStore: `${API_HOST}pages/${pageId}/content`,
+    urlLoad: `${API_HOST}pages/${pageId}/content`,
+  };
+};
+
+export const scripts = [
+  "https://code.jquery.com/jquery-3.5.1.slim.min.js",
+  "https://unpkg.com/swiper@7/swiper-bundle.min.js",
+  "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
+  "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js",
+];
+export const styles = [
+  "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
+  "https://unpkg.com/swiper@7/swiper-bundle.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
+];
