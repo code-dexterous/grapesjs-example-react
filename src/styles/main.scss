@@ -1,0 +1,262 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.sidenav {
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100vh;
+  overflow: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: 0.5s;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  .logo {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .pages {
+    height: 100px;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+}
+.w-85 {
+  width: 85%;
+}
+.start-15 {
+  left: 15%;
+}
+.main-content {
+  .navbar {
+    padding: 0;
+    .container-fluid {
+      padding: 0;
+    }
+  }
+
+  #editor {
+    border: 2px solid rgba(0, 0, 0, 0.3);
+  }
+}
+
+.nav {
+  justify-content: space-between;
+}
+.gjs-pn-panel {
+  position: relative;
+}
+
+.gjs-cv-canvas {
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.tab-content {
+  display: contents;
+}
+
+#block {
+  height: 100%;
+  #blocks {
+    height: 100%;
+
+    .gjs-blocks-c {
+      align-items: center;
+      justify-content: center;
+    }
+    .gjs-block {
+      justify-content: center;
+    }
+  }
+}
+
+/* Theming */
+.gjs-one-bg {
+  background-color: #fcf6f5ff;
+}
+
+.gjs-two-color {
+  color: #990011ff;
+}
+
+.gjs-three-bg {
+  background-color: #990011ff;
+  color: #fcf6f5ff;
+}
+
+.gjs-four-color,
+.gjs-four-color-h:hover {
+  color: #990011ff;
+}
+
+.gjs-pn-btn {
+  border: 1px solid #990011ff;
+}
+
+// Customize Bootstrap CSS
+
+.btn,
+.nav-link,
+.modal-content,
+.form-control {
+  border-radius: 0 !important;
+}
+
+.btn {
+  .fa {
+    color: #990011ff;
+  }
+  &:hover {
+    .fa {
+      color: #fcf6f5ff;
+    }
+  }
+}
+
+/** Error **/
+.error {
+  .bg-body {
+    min-height: 150px;
+    max-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .title {
+      font-weight: 600;
+    }
+  }
+  .btn {
+    border-radius: 40px !important;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 150px;
+  }
+}
+
+/** Assets **/
+.gjs-am-meta,
+.gjs-am-close,
+.gjs-am-file-uploader,
+.gjs-am-assets-header {
+  display: none;
+}
+
+.gjs-am-assets-cont {
+  width: 100%;
+}
+
+.gjs-am-assets {
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gjs-am-asset-image {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: contents;
+}
+
+.gjs-am-preview-cont {
+  margin-top: 1rem;
+}
+.gjs-block-label {
+  .fa {
+    font-size: 25px;
+  }
+}
+.grp-wrapper {
+  background-image: url("data:image/png:base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==");
+}
+.grp-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+.grp-handler {
+  width: 4px;
+  margin-left: -2px;
+  user-select: none;
+  height: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.grp-handler-close {
+  color: rgba(0, 0, 0, 0.4);
+  border-radius: 0 2px 10px rgba(0, 0, 0, 0.25);
+  background-color: #fff;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  margin-left: -5px;
+  line-height: 10px;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.grp-handler-close {
+  position: absolute;
+  top: -17px;
+}
+
+.grp-handler-drag {
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: col-resize;
+  width: 100%;
+  height: 100%;
+}
+
+.grp-handler-selected .grap-handler-drag {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.grp-handler-cp-c {
+  display: none;
+}
+
+.grp-handler-selected .grp-handler-cp-c {
+  display: block;
+}
+
+.grp-handler-cp-wrap {
+  width: 15px;
+  height: 15px;
+  margin-left: -8px;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.grp-handler-cp-wrap input[type="color"] {
+  opacity: 0;
+  cursor: pointer;
+}
