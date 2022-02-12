@@ -174,6 +174,44 @@ export default (editor, opts = {}) => {
       });
     }
 
+    const toolbar = [
+      {
+        attributes: {
+          class: "fa fa-arrow-up",
+        },
+        command: (e) => e.runCommand("core:component-exit", { force: 1 }),
+      },
+      {
+        attributes: {
+          class: "fa fa-arrows gjs-no-touch-actions",
+          draggable: true,
+        },
+        command: "tld-move",
+      },
+
+      {
+        attributes: {
+          class: "fa fa-clone",
+        },
+        command: "tlb-clone",
+      },
+      {
+        attributes: {
+          class: "fa fa-trash-o",
+        },
+        command: "tlb-delete",
+      },
+      {
+        attributes: {
+          class: "fa fa-gear",
+        },
+        command: (e) => {
+          console.log("Another way to add toolbar");
+          alert("Another way to add toolbar");
+        },
+      },
+    ];
+
     if (type.id === "svg" || type.id === "svg-in") {
       dc.addType(type.id, {
         model: {
@@ -212,6 +250,7 @@ export default (editor, opts = {}) => {
     dc.addType(type.id, {
       model: {
         defaults: {
+          toolbar,
           traits: [
             ...defaultTraits,
             {

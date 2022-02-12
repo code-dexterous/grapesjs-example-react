@@ -531,6 +531,10 @@ export const addEditorCommand = (editor) => {
   editor.Commands.add("export", {
     run: (editor) => editor.runCommand("gjs-export-zip"),
   });
+
+  editor.Commands.add("new-tool-cmd", {
+    run: (editor) => console.log("Checking New Toolbar"),
+  });
 };
 
 export const storageSetting = (pageId) => {

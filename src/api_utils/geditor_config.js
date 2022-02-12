@@ -93,8 +93,25 @@ const geditorConfig = (assets, pageId) => {
     panelTopBar.removeClass("d-none");
   });
   editor.on("component:selected", (component) => {
-    console.log("component :>> ", component);
-    toggleSidebar(!!component);
+    const newTool = {
+      icon: "fa fa-plus-square",
+      title: "Check Toolbar",
+      commandName: "new-tool-cmd",
+      id: "new-tool",
+    };
+
+    const defaultToolbar = component.get("toolbar");
+    const checkAlreadyExist = defaultToolbar.find(
+      (toolbar) => toolbar.command === newTool.commandName
+    );
+    if (!checkAlreadyExist) {
+      defaultToolbar.unshift({
+        id: newTool.id,
+        attributes: { class: newTool.icon, title: newTool.title },
+        command: newTool.commandName,
+      });
+      component.set("toolbar", defaultToolbar);
+    }
   });
 
   setTimeout(() => {
