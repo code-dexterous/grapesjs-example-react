@@ -20,6 +20,7 @@ import {
 } from "./geditor_utils";
 import tailwindComponent from "../plugins/tailwind";
 import swiperComponent from "../plugins/swiper";
+import chartLibComponent from "../plugins/charts";
 
 const geditorConfig = (assets, pageId) => {
   $(".panel__devices").html("");
@@ -59,6 +60,7 @@ const geditorConfig = (assets, pageId) => {
       grapesjsBlockBootstrap,
       grapesjsPluginExport,
       grapesjsStyleBg,
+      chartLibComponent,
     ],
     pluginsOpts: {
       tailwindComponent: {},
@@ -67,11 +69,11 @@ const geditorConfig = (assets, pageId) => {
       grapesjsBlockBootstrap: {},
       grapesjsPluginExport: {},
       grapesjsStyleBg: {},
+      chartLibComponent: {},
     },
   });
 
   addEditorCommand(editor);
-
   editor.on("run:preview", () => {
     console.log("It will trigger when we click on preview icon");
     // This will be used to hide border
