@@ -34,9 +34,10 @@ export const styleManager = {
       open: false,
       buildProps: [
         "width",
-        "flex-width",
-        "height",
         "max-width",
+        "min-width",
+        "height",
+        "max-height",
         "min-height",
         "margin",
         "padding",
